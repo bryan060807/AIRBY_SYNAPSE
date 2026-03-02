@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   Card,
   CardContent,
@@ -8,7 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import {
+  ChartContainer,
+  ChartTooltipContent,
+  type ChartConfig,
+} from '@/components/ui/chart';
 
 const data = [
   { name: 'Jan', total: Math.floor(Math.random() * 5) + 1 },
@@ -25,6 +29,13 @@ const data = [
   { name: 'Dec', total: Math.floor(Math.random() * 5) },
 ];
 
+const chartConfig = {
+  total: {
+    label: 'Releases',
+    color: 'hsl(var(--primary))',
+  },
+} satisfies ChartConfig;
+
 export function OverviewChart() {
   return (
     <Card className="col-span-4 bg-card/50 backdrop-blur-sm">
@@ -33,8 +44,8 @@ export function OverviewChart() {
         <CardDescription>Your release cadence over the year.</CardDescription>
       </CardHeader>
       <CardContent className="pl-2">
-        <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={data}>
+        <ChartContainer config={chartConfig} className="h-[350px] w-full">
+          <BarChart accessibilityLayer data={data}>
             <XAxis
               dataKey="name"
               stroke="hsl(var(--muted-foreground))"
@@ -48,14 +59,19 @@ export function OverviewChart() {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `${value}`}
+              allowDecimals={false}
             />
             <Tooltip
               cursorClassName="fill-border"
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent />}
             />
-            <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+            <Bar
+              dataKey="total"
+              fill="var(--color-total)"
+              radius={[4, 4, 0, 0]}
+            />
           </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   );
