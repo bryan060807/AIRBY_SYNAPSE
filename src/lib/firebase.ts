@@ -34,8 +34,12 @@ export async function getDiscography(): Promise<Release[]> {
       });
     });
   } catch (error: any) {
-    if (error.code !== 5) throw error; // 5 = NOT_FOUND, rethrow other errors
-    console.warn("Collection 'discography_projects' not found. It may not have been created yet.");
+    if (error.code === 5) { // NOT_FOUND
+      console.warn("Collection 'discography_projects' not found. It may not have been created yet.");
+    } else {
+      console.error("Error fetching from discography_projects:", error);
+      // Return whatever has been fetched so far, don't crash the app
+    }
   }
 
   try {
@@ -56,8 +60,12 @@ export async function getDiscography(): Promise<Release[]> {
       });
     });
   } catch (error: any) {
-    if (error.code !== 5) throw error; // 5 = NOT_FOUND, rethrow other errors
-    console.warn("Collection 'discography_singles' not found. It may not have been created yet.");
+    if (error.code === 5) { // NOT_FOUND
+      console.warn("Collection 'discography_singles' not found. It may not have been created yet.");
+    } else {
+       console.error("Error fetching from discography_singles:", error);
+      // Return whatever has been fetched so far, don't crash the app
+    }
   }
 
 
@@ -89,7 +97,8 @@ export async function getReleaseById(id: string): Promise<Release | undefined> {
         }
     } catch (error: any) {
         if (error.code !== 5) { // NOT_FOUND
-            throw error;
+            console.error("Error fetching release from discography_projects:", error);
+            return undefined; // Return undefined on errors other than not found
         }
         // If collection not found, just continue to the next one.
     }
@@ -113,7 +122,8 @@ export async function getReleaseById(id: string): Promise<Release | undefined> {
         }
     } catch (error: any) {
         if (error.code !== 5) { // NOT_FOUND
-            throw error;
+            console.error("Error fetching release from discography_singles:", error);
+            return undefined; // Return undefined on errors other than not found
         }
     }
 
