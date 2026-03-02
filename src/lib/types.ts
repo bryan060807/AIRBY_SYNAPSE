@@ -16,4 +16,5 @@ export type Release = {
   imageUrl?: string;
   imageDescription?: string;
   stems?: { name: string; url: string }[];
+  category?: string;
 };

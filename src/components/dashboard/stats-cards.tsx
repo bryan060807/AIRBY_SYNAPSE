@@ -5,14 +5,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Album, FileAudio, Sparkles, FolderUp } from 'lucide-react';
-import { mockReleases } from '@/lib/mock-data';
+import type { Release } from '@/lib/types';
 
-export function StatsCards() {
-  const totalReleases = mockReleases.length;
-  const marketingAssetsGenerated = mockReleases.filter(
+export function StatsCards({ data }: { data: Release[] }) {
+  const totalReleases = data.length;
+  const marketingAssetsGenerated = data.filter(
     (r) => r.marketingCopy
   ).length;
-  const upcomingReleases = mockReleases.filter(
+  const upcomingReleases = data.filter(
     (r) => new Date(r.releaseDate) > new Date()
   ).length;
   const stemsUploaded = 4; // Mock data

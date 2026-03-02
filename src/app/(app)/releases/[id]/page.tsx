@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getReleaseById } from '@/lib/mock-data';
+import { getReleaseById } from '@/lib/firebase';
 import { Header } from '@/components/header';
 import {
   Card,
@@ -22,8 +22,8 @@ type ReleaseDetailPageProps = {
   };
 };
 
-export default function ReleaseDetailPage({ params }: ReleaseDetailPageProps) {
-  const release = getReleaseById(params.id);
+export default async function ReleaseDetailPage({ params }: ReleaseDetailPageProps) {
+  const release = await getReleaseById(params.id);
 
   if (!release) {
     notFound();

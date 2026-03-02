@@ -60,6 +60,10 @@ export const columns: ColumnDef<Release>[] = [
     header: 'Artist',
   },
   {
+    accessorKey: 'category',
+    header: 'Category',
+  },
+  {
     accessorKey: 'releaseDate',
     header: ({ column }) => {
       return (

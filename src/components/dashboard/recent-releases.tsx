@@ -7,13 +7,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { mockReleases } from '@/lib/mock-data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '../ui/badge';
 import { ArrowRight } from 'lucide-react';
+import type { Release } from '@/lib/types';
 
-export function RecentReleases() {
-  const recentReleases = mockReleases.slice(0, 4);
+export function RecentReleases({ data }: { data: Release[] }) {
+  const recentReleases = data.slice(0, 4);
 
   const statusVariant = {
     'In Progress': 'default',
